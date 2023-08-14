@@ -1,0 +1,37 @@
+Cria a pasta
+npm init (acrescentar -y pra criar padrão)
+npm install webpack webpack-cli --save-dev
+remover "main": "index.js" de package.json (por que?)
+acrescentar "private": true a package.json (impede de publicar o código?)
+criar dist/ e src/
+criar dist/index.html
+    <script src="bundle.js"></script> (no body, mas talvez pode ser em outro lugar?)
+
+alterar webpack.config.js:
+    remover: filename: 'main.js',
+    acrescentar filename: 'bundle.js',
+
+criar webpack-config.js
+    const path = require('path');
+
+    module.exports = {
+    entry: './src/index.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    module: {
+        rules: [
+            {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
+            },
+        ],
+     },
+    };
+
+rodar npm install --save-dev style-loader css-loader
+
+criar src/style.css
+acrescentar import './style.css'; ao index.js (testar... antes eu linkei direto no dist/index.html)
+
