@@ -1,3 +1,7 @@
+https://webpack.js.org/guides/getting-started/
+https://webpack.js.org/guides/asset-management/
+https://webpack.js.org/guides/output-management/
+
 Cria a pasta
 npm init (acrescentar -y pra criar padrão)
 npm install webpack webpack-cli --save-dev

@@ -1,3 +1,59 @@
-h1 {
-  color: red;
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@300;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+#search-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 18px;
+}
+
+#search-bar input,
+#search-bar button {
+  padding: 4px;
+  background-color: white;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+#city-name {
+  font-weight: 500;
+  padding-left: 18px;
+}
+
+#main-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+}
+
+#current-icon {
+  grid-column: 1;
+}
+
+#current-temp {
+  grid-column: 2;
+  font-size: 38px;
+}
+
+#max-min {
+  grid-column: 3;
+  font-size: 18px;
 }
