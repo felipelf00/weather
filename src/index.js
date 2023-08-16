@@ -54,6 +54,27 @@ const precipitation = document.createElement("div");
 precipitation.classList.add("current-info");
 document.body.appendChild(precipitation);
 
+const slider = document.createElement("div");
+slider.classList.add("slider");
+slider.classList.add("snap");
+
+for (var i = 0; i <= 23; i++) {
+  const hourElement = document.createElement("div");
+  hourElement.classList.add("slider-element");
+  hourElement.dataset.hour = i;
+  const time = document.createElement("span");
+  time.classList.add("time");
+  const icon = document.createElement("img");
+  const temp = document.createElement("span");
+  temp.classList.add("temp");
+  hourElement.appendChild(time);
+  hourElement.appendChild(icon);
+  hourElement.appendChild(temp);
+  slider.appendChild(hourElement);
+}
+
+document.body.appendChild(slider);
+
 async function getForecast(location) {
   const response = await fetch(
     "https://api.weatherapi.com/v1/forecast.json?key=2c503903ede24409ab9195110230808&q=" +
@@ -64,7 +85,10 @@ async function getForecast(location) {
   console.log(response);
   const responseJson = await response.json();
   console.log(responseJson);
+  return responseJson;
+}
 
+function printForecast(responseJson) {
   cityName.textContent = responseJson.location.name;
   weatherIcon.src = responseJson.current.condition.icon;
   currentTemp.textContent = responseJson.current.temp_c + "°C";
@@ -84,8 +108,33 @@ async function getForecast(location) {
     "Precipitação: " +
     responseJson.forecast.forecastday[0].day.totalprecip_mm +
     " mm";
+
+  // const hourElements = document.querySelectorAll(".slider-element");
+  // hourElements.forEach(element => {
+  //   const icon = element.querySelector(img);
+  //   const temp = element.querySelector(span);
+  //   icon.src = responseJson.forecastday[0].hour.
+  // })
+
+  for (var i = 0; i <= 23; i++) {
+    const hourElement = document.querySelector(`[data-hour="${i}"`);
+    hourElement.querySelector(".time").textContent = i + "h";
+    hourElement.querySelector("img").src =
+      responseJson.forecast.forecastday[0].hour[i].condition.icon;
+    hourElement.querySelector(".temp").textContent =
+      responseJson.forecast.forecastday[0].hour[i].temp_c + "°C";
+  }
 }
 
-search.addEventListener("click", () => {
-  getForecast(locationInput.value);
+search.addEventListener("click", async function () {
+  const data = await getForecast(locationInput.value);
+  printForecast(data);
+  locationInput.value = "";
+});
+
+locationInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    search.click();
+    event.preventDefault();
+  }
 });

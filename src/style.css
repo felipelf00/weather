@@ -63,3 +63,31 @@ textarea {
 .current-info {
   padding: 3px;
 }
+
+.slider {
+  padding: 16px 0 16px 0;
+  display: grid;
+  gap: 5px;
+  grid-auto-flow: column;
+  grid-auto-columns: 22%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.slider span {
+  font-size: 0.85rem;
+}
+
+.slider-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.snap {
+  scroll-snap-type: inline proximity;
+}
+
+.snap > * {
+  scroll-snap-align: start;
+}
