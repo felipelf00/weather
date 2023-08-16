@@ -38,6 +38,22 @@ mainRow.appendChild(currentTemp);
 mainRow.appendChild(maxMin);
 document.body.appendChild(mainRow);
 
+const condition = document.createElement("div");
+condition.classList.add("current-info");
+document.body.appendChild(condition);
+
+const conditionDay = document.createElement("div");
+conditionDay.classList.add("current-info");
+document.body.appendChild(conditionDay);
+
+const chanceOfRain = document.createElement("div");
+chanceOfRain.classList.add("current-info");
+document.body.appendChild(chanceOfRain);
+
+const precipitation = document.createElement("div");
+precipitation.classList.add("current-info");
+document.body.appendChild(precipitation);
+
 async function getForecast(location) {
   const response = await fetch(
     "https://api.weatherapi.com/v1/forecast.json?key=2c503903ede24409ab9195110230808&q=" +
@@ -56,6 +72,18 @@ async function getForecast(location) {
     "máx: " + responseJson.forecast.forecastday[0].day.maxtemp_c + "°C";
   todayMinTemp.textContent =
     "mín: " + responseJson.forecast.forecastday[0].day.mintemp_c + "°C";
+
+  condition.textContent = "Agora: " + responseJson.current.condition.text;
+  conditionDay.textContent =
+    "Hoje: " + responseJson.forecast.forecastday[0].day.condition.text;
+  chanceOfRain.textContent =
+    "Probabilidade de chuva: " +
+    responseJson.forecast.forecastday[0].day.daily_chance_of_rain +
+    "%";
+  precipitation.textContent =
+    "Precipitação: " +
+    responseJson.forecast.forecastday[0].day.totalprecip_mm +
+    " mm";
 }
 
 search.addEventListener("click", () => {
