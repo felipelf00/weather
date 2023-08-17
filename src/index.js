@@ -109,13 +109,6 @@ function printForecast(responseJson) {
     responseJson.forecast.forecastday[0].day.totalprecip_mm +
     " mm";
 
-  // const hourElements = document.querySelectorAll(".slider-element");
-  // hourElements.forEach(element => {
-  //   const icon = element.querySelector(img);
-  //   const temp = element.querySelector(span);
-  //   icon.src = responseJson.forecastday[0].hour.
-  // })
-
   for (var i = 0; i <= 23; i++) {
     const hourElement = document.querySelector(`[data-hour="${i}"`);
     hourElement.querySelector(".time").textContent = i + "h";
@@ -124,7 +117,30 @@ function printForecast(responseJson) {
     hourElement.querySelector(".temp").textContent =
       responseJson.forecast.forecastday[0].hour[i].temp_c + "°C";
   }
+
+  const currentLocalTime = new Date();
+  const currentHour = currentLocalTime.getHours();
+
+  scrollToHour(currentHour);
 }
+
+function scrollToHour(hour) {
+  const slider = document.querySelector(".slider");
+  const element = document.querySelector(`[data-hour="${hour}"`);
+
+  const sliderPositionX = slider.getBoundingClientRect().left;
+  const elementPositionX = element.getBoundingClientRect().left;
+
+  slider.scroll({
+    left: elementPositionX - sliderPositionX,
+    top: 0,
+  });
+}
+
+// scrollToHour(4);
+
+const startingCity = await getForecast("Curitiba");
+printForecast(startingCity);
 
 search.addEventListener("click", async function () {
   const data = await getForecast(locationInput.value);
