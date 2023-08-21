@@ -39,7 +39,7 @@ textarea {
   /* padding-left: 18px; */
 }
 
-#main-row {
+.row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
@@ -55,12 +55,12 @@ textarea {
   font-size: 38px;
 }
 
-#max-min {
+.max-min {
   grid-column: 3;
   font-size: 18px;
 }
 
-.current-info {
+.info {
   padding: 3px;
 }
 
@@ -90,4 +90,8 @@ textarea {
 
 .snap > * {
   scroll-snap-align: start;
+}
+
+.tomorrow-title {
+  padding-top: 13px;
 }

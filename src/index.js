@@ -21,13 +21,14 @@ cityName.id = "city-name";
 document.body.appendChild(cityName);
 
 const mainRow = document.createElement("div");
-mainRow.id = "main-row";
+// mainRow.id = "main-row";
+mainRow.classList.add("row");
 const weatherIcon = document.createElement("img");
 weatherIcon.id = "current-icon";
 const currentTemp = document.createElement("div");
 currentTemp.id = "current-temp";
 const maxMin = document.createElement("div");
-maxMin.id = "max-min";
+maxMin.classList.add("max-min");
 const todayMaxTemp = document.createElement("div");
 const todayMinTemp = document.createElement("div");
 maxMin.appendChild(todayMaxTemp);
@@ -39,19 +40,19 @@ mainRow.appendChild(maxMin);
 document.body.appendChild(mainRow);
 
 const condition = document.createElement("div");
-condition.classList.add("current-info");
+condition.classList.add("info");
 document.body.appendChild(condition);
 
 const conditionDay = document.createElement("div");
-conditionDay.classList.add("current-info");
+conditionDay.classList.add("info");
 document.body.appendChild(conditionDay);
 
 const chanceOfRain = document.createElement("div");
-chanceOfRain.classList.add("current-info");
+chanceOfRain.classList.add("info");
 document.body.appendChild(chanceOfRain);
 
 const precipitation = document.createElement("div");
-precipitation.classList.add("current-info");
+precipitation.classList.add("info");
 document.body.appendChild(precipitation);
 
 const slider = document.createElement("div");
@@ -74,6 +75,33 @@ for (var i = 0; i <= 23; i++) {
 }
 
 document.body.appendChild(slider);
+
+const tomorrowTitle = document.createElement("h3");
+tomorrowTitle.classList.add("tomorrow-title");
+document.body.appendChild(tomorrowTitle);
+
+const tomorrowRow = document.createElement("div");
+tomorrowRow.classList.add("row");
+const tomorrowIcon = document.createElement("img");
+const tomorrowCondition = document.createElement("div");
+const tomorrowMaxMin = document.createElement("div");
+tomorrowMaxMin.classList.add("max-min");
+const tomorrowMax = document.createElement("div");
+const tomorrowMin = document.createElement("div");
+tomorrowMaxMin.appendChild(tomorrowMax);
+tomorrowMaxMin.appendChild(tomorrowMin);
+
+tomorrowRow.appendChild(tomorrowIcon);
+tomorrowRow.appendChild(tomorrowCondition);
+tomorrowRow.appendChild(tomorrowMaxMin);
+document.body.appendChild(tomorrowRow);
+
+const tomorrowRainChance = document.createElement("div");
+tomorrowRainChance.classList.add("info");
+const tomorrowRain = document.createElement("div");
+tomorrowRain.classList.add("info");
+document.body.appendChild(tomorrowRainChance);
+document.body.appendChild(tomorrowRain);
 
 async function getForecast(location) {
   const response = await fetch(
@@ -120,16 +148,39 @@ function printForecast(responseJson) {
 
   const currentLocalTime = new Date();
   const currentHour = currentLocalTime.getHours();
-
   scrollToHour(currentHour);
+
+  tomorrowTitle.textContent =
+    "Amanhã - " +
+    currentLocalTime.getDate() +
+    "/" +
+    currentLocalTime.getMonth();
+
+  tomorrowIcon.src = responseJson.forecast.forecastday[1].day.condition.icon;
+  tomorrowCondition.textContent =
+    responseJson.forecast.forecastday[1].day.condition.text;
+  tomorrowMax.textContent =
+    "máx: " + responseJson.forecast.forecastday[1].day.maxtemp_c + "°C";
+  tomorrowMin.textContent =
+    "min: " + responseJson.forecast.forecastday[1].day.mintemp_c + "°C";
+
+  tomorrowRainChance.textContent =
+    "Probabilidade de chuva: " +
+    responseJson.forecast.forecastday[1].day.daily_chance_of_rain +
+    "%";
+  tomorrowRain.textContent =
+    "Precipitação: " +
+    responseJson.forecast.forecastday[1].day.totalprecip_mm +
+    " mm";
 }
 
 function scrollToHour(hour) {
   const slider = document.querySelector(".slider");
-  const element = document.querySelector(`[data-hour="${hour}"`);
+  const element = document.querySelector(`[data-hour="${hour}"]`);
 
   const sliderPositionX = slider.getBoundingClientRect().left;
   const elementPositionX = element.getBoundingClientRect().left;
+  console.log(hour);
 
   slider.scroll({
     left: elementPositionX - sliderPositionX,
