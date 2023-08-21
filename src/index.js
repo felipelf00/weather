@@ -20,6 +20,9 @@ const cityName = document.createElement("h1");
 cityName.id = "city-name";
 document.body.appendChild(cityName);
 
+const todayTitle = document.createElement("h3");
+todayTitle.classList.add("title");
+
 const mainRow = document.createElement("div");
 // mainRow.id = "main-row";
 mainRow.classList.add("row");
@@ -55,9 +58,9 @@ const precipitation = document.createElement("div");
 precipitation.classList.add("info");
 document.body.appendChild(precipitation);
 
-const slider = document.createElement("div");
-slider.classList.add("slider");
-slider.classList.add("snap");
+const sliderToday = document.createElement("div");
+sliderToday.classList.add("slider");
+sliderToday.classList.add("snap");
 
 for (var i = 0; i <= 23; i++) {
   const hourElement = document.createElement("div");
@@ -71,13 +74,13 @@ for (var i = 0; i <= 23; i++) {
   hourElement.appendChild(time);
   hourElement.appendChild(icon);
   hourElement.appendChild(temp);
-  slider.appendChild(hourElement);
+  sliderToday.appendChild(hourElement);
 }
 
-document.body.appendChild(slider);
+document.body.appendChild(sliderToday);
 
 const tomorrowTitle = document.createElement("h3");
-tomorrowTitle.classList.add("tomorrow-title");
+tomorrowTitle.classList.add("title");
 document.body.appendChild(tomorrowTitle);
 
 const tomorrowRow = document.createElement("div");
@@ -103,6 +106,76 @@ tomorrowRain.classList.add("info");
 document.body.appendChild(tomorrowRainChance);
 document.body.appendChild(tomorrowRain);
 
+const sliderTomorrow = document.createElement("div");
+sliderTomorrow.classList.add("slider");
+sliderTomorrow.classList.add("snap");
+
+for (var i = 0; i <= 23; i++) {
+  const hourElement = document.createElement("div");
+  hourElement.classList.add("slider-element");
+  hourElement.dataset.hour = i;
+  const time = document.createElement("span");
+  time.classList.add("time");
+  const icon = document.createElement("img");
+  const temp = document.createElement("span");
+  temp.classList.add("temp");
+  hourElement.appendChild(time);
+  hourElement.appendChild(icon);
+  hourElement.appendChild(temp);
+  sliderTomorrow.appendChild(hourElement);
+}
+
+document.body.appendChild(sliderTomorrow);
+
+// after
+const afterTitle = document.createElement("h3");
+afterTitle.classList.add("title");
+document.body.appendChild(afterTitle);
+
+const afterRow = document.createElement("div");
+afterRow.classList.add("row");
+const afterIcon = document.createElement("img");
+const afterCondition = document.createElement("div");
+const afterMaxMin = document.createElement("div");
+afterMaxMin.classList.add("max-min");
+const afterMax = document.createElement("div");
+const afterMin = document.createElement("div");
+afterMaxMin.appendChild(afterMax);
+afterMaxMin.appendChild(afterMin);
+
+afterRow.appendChild(afterIcon);
+afterRow.appendChild(afterCondition);
+afterRow.appendChild(afterMaxMin);
+document.body.appendChild(afterRow);
+
+const afterRainChance = document.createElement("div");
+afterRainChance.classList.add("info");
+const afterRain = document.createElement("div");
+afterRain.classList.add("info");
+document.body.appendChild(afterRainChance);
+document.body.appendChild(afterRain);
+
+const sliderAfter = document.createElement("div");
+sliderAfter.classList.add("slider");
+sliderAfter.classList.add("snap");
+
+for (var i = 0; i <= 23; i++) {
+  const hourElement = document.createElement("div");
+  hourElement.classList.add("slider-element");
+  hourElement.dataset.hour = i;
+  const time = document.createElement("span");
+  time.classList.add("time");
+  const icon = document.createElement("img");
+  const temp = document.createElement("span");
+  temp.classList.add("temp");
+  hourElement.appendChild(time);
+  hourElement.appendChild(icon);
+  hourElement.appendChild(temp);
+  sliderAfter.appendChild(hourElement);
+}
+
+document.body.appendChild(sliderAfter);
+
 async function getForecast(location) {
   const response = await fetch(
     "https://api.weatherapi.com/v1/forecast.json?key=2c503903ede24409ab9195110230808&q=" +
@@ -117,7 +190,13 @@ async function getForecast(location) {
 }
 
 function printForecast(responseJson) {
+  const currentLocalTime = new Date();
+  const currentHour = currentLocalTime.getHours();
+  scrollToHour(currentHour, sliderToday);
+
   cityName.textContent = responseJson.location.name;
+  todayTitle.textContent =
+    "Hoje - " + currentLocalTime.getDate() + "/" + currentLocalTime.getMonth();
   weatherIcon.src = responseJson.current.condition.icon;
   currentTemp.textContent = responseJson.current.temp_c + "°C";
   todayMaxTemp.textContent =
@@ -138,7 +217,7 @@ function printForecast(responseJson) {
     " mm";
 
   for (var i = 0; i <= 23; i++) {
-    const hourElement = document.querySelector(`[data-hour="${i}"`);
+    const hourElement = sliderToday.querySelector(`[data-hour="${i}"`);
     hourElement.querySelector(".time").textContent = i + "h";
     hourElement.querySelector("img").src =
       responseJson.forecast.forecastday[0].hour[i].condition.icon;
@@ -146,15 +225,11 @@ function printForecast(responseJson) {
       responseJson.forecast.forecastday[0].hour[i].temp_c + "°C";
   }
 
-  const currentLocalTime = new Date();
-  const currentHour = currentLocalTime.getHours();
-  scrollToHour(currentHour);
+  const tomorrow = new Date(currentLocalTime);
+  tomorrow.setDate(currentLocalTime.getDate() + 1);
 
   tomorrowTitle.textContent =
-    "Amanhã - " +
-    currentLocalTime.getDate() +
-    "/" +
-    currentLocalTime.getMonth();
+    "Amanhã - " + tomorrow.getDate() + "/" + tomorrow.getMonth();
 
   tomorrowIcon.src = responseJson.forecast.forecastday[1].day.condition.icon;
   tomorrowCondition.textContent =
@@ -172,10 +247,57 @@ function printForecast(responseJson) {
     "Precipitação: " +
     responseJson.forecast.forecastday[1].day.totalprecip_mm +
     " mm";
+
+  for (var i = 0; i <= 23; i++) {
+    const hourElement = sliderTomorrow.querySelector(`[data-hour="${i}"`);
+    hourElement.querySelector(".time").textContent = i + "h";
+    hourElement.querySelector("img").src =
+      responseJson.forecast.forecastday[1].hour[i].condition.icon;
+    hourElement.querySelector(".temp").textContent =
+      responseJson.forecast.forecastday[1].hour[i].temp_c + "°C";
+  }
+
+  scrollToHour(6, sliderTomorrow);
+
+  //after
+
+  const after = new Date(currentLocalTime);
+  after.setDate(currentLocalTime.getDate() + 2);
+
+  afterTitle.textContent =
+    "Depois de amanhã - " + after.getDate() + "/" + after.getMonth();
+
+  afterIcon.src = responseJson.forecast.forecastday[2].day.condition.icon;
+  afterCondition.textContent =
+    responseJson.forecast.forecastday[2].day.condition.text;
+  afterMax.textContent =
+    "máx: " + responseJson.forecast.forecastday[2].day.maxtemp_c + "°C";
+  afterMin.textContent =
+    "min: " + responseJson.forecast.forecastday[2].day.mintemp_c + "°C";
+
+  afterRainChance.textContent =
+    "Probabilidade de chuva: " +
+    responseJson.forecast.forecastday[2].day.daily_chance_of_rain +
+    "%";
+  afterRain.textContent =
+    "Precipitação: " +
+    responseJson.forecast.forecastday[2].day.totalprecip_mm +
+    " mm";
+
+  for (var i = 0; i <= 23; i++) {
+    const hourElement = sliderAfter.querySelector(`[data-hour="${i}"`);
+    hourElement.querySelector(".time").textContent = i + "h";
+    hourElement.querySelector("img").src =
+      responseJson.forecast.forecastday[2].hour[i].condition.icon;
+    hourElement.querySelector(".temp").textContent =
+      responseJson.forecast.forecastday[2].hour[i].temp_c + "°C";
+  }
+
+  scrollToHour(6, sliderAfter);
 }
 
-function scrollToHour(hour) {
-  const slider = document.querySelector(".slider");
+function scrollToHour(hour, slider) {
+  // const slider = document.querySelector(".slider");
   const element = document.querySelector(`[data-hour="${hour}"]`);
 
   const sliderPositionX = slider.getBoundingClientRect().left;
