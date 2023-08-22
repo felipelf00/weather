@@ -59,8 +59,7 @@ precipitation.classList.add("info");
 document.body.appendChild(precipitation);
 
 const sliderToday = document.createElement("div");
-sliderToday.classList.add("slider");
-sliderToday.classList.add("snap");
+sliderToday.classList.add("slider", "snap", "expanded");
 
 for (var i = 0; i <= 23; i++) {
   const hourElement = document.createElement("div");
@@ -78,6 +77,20 @@ for (var i = 0; i <= 23; i++) {
 }
 
 document.body.appendChild(sliderToday);
+
+const expanderTodayContainer = document.createElement("div");
+expanderTodayContainer.classList.add("exp-container");
+const expanderToday = document.createElement("span");
+expanderToday.classList.add("material-symbols-outlined");
+expanderToday.classList.add("expander", "clicked");
+expanderToday.textContent = "expand_more";
+expanderTodayContainer.appendChild(expanderToday);
+document.body.appendChild(expanderTodayContainer);
+
+expanderToday.addEventListener("click", () => {
+  sliderToday.classList.toggle("expanded");
+  expanderToday.classList.toggle("clicked");
+});
 
 const tomorrowTitle = document.createElement("h3");
 tomorrowTitle.classList.add("title");
@@ -126,6 +139,20 @@ for (var i = 0; i <= 23; i++) {
 }
 
 document.body.appendChild(sliderTomorrow);
+
+const expanderTomorrowContainer = document.createElement("div");
+expanderTomorrowContainer.classList.add("exp-container");
+const expanderTomorrow = document.createElement("span");
+expanderTomorrow.classList.add("material-symbols-outlined");
+expanderTomorrow.classList.add("expander");
+expanderTomorrow.textContent = "expand_more";
+expanderTomorrowContainer.appendChild(expanderTomorrow);
+document.body.appendChild(expanderTomorrowContainer);
+
+expanderTomorrow.addEventListener("click", () => {
+  sliderTomorrow.classList.toggle("expanded");
+  expanderTomorrow.classList.toggle("clicked");
+});
 
 // after
 const afterTitle = document.createElement("h3");
@@ -176,6 +203,20 @@ for (var i = 0; i <= 23; i++) {
 
 document.body.appendChild(sliderAfter);
 
+const expanderAfterContainer = document.createElement("div");
+expanderAfterContainer.classList.add("exp-container");
+const expanderAfter = document.createElement("span");
+expanderAfter.classList.add("material-symbols-outlined");
+expanderAfter.classList.add("expander");
+expanderAfter.textContent = "expand_more";
+expanderAfterContainer.appendChild(expanderAfter);
+document.body.appendChild(expanderAfterContainer);
+
+expanderAfter.addEventListener("click", () => {
+  sliderAfter.classList.toggle("expanded");
+  expanderAfter.classList.toggle("clicked");
+});
+
 async function getForecast(location) {
   const response = await fetch(
     "https://api.weatherapi.com/v1/forecast.json?key=2c503903ede24409ab9195110230808&q=" +
@@ -192,7 +233,6 @@ async function getForecast(location) {
 function printForecast(responseJson) {
   const currentLocalTime = new Date();
   const currentHour = currentLocalTime.getHours();
-  scrollToHour(currentHour, sliderToday);
 
   cityName.textContent = responseJson.location.name;
   todayTitle.textContent =
@@ -257,10 +297,6 @@ function printForecast(responseJson) {
       responseJson.forecast.forecastday[1].hour[i].temp_c + "°C";
   }
 
-  scrollToHour(6, sliderTomorrow);
-
-  //after
-
   const after = new Date(currentLocalTime);
   after.setDate(currentLocalTime.getDate() + 2);
 
@@ -293,24 +329,60 @@ function printForecast(responseJson) {
       responseJson.forecast.forecastday[2].hour[i].temp_c + "°C";
   }
 
+  scrollToHour(currentHour, sliderToday);
+  scrollToHour(6, sliderTomorrow);
   scrollToHour(6, sliderAfter);
 }
 
+// function scrollToHour(hour, slider) {
+//   slider.scroll({
+//     left: 0,
+//     top: 0,
+//   });
+
+//   const element = document.querySelector(`[data-hour="${hour}"]`);
+
+//   if (!element) {
+//     console.log(`Element for hour ${hour} not found.`);
+//     return;
+//   }
+
+//   const sliderPositionX = slider.getBoundingClientRect().left;
+//   const elementPositionX = element.getBoundingClientRect().left;
+
+//   console.log(
+//     `Scrolling ${
+//       slider.id || slider.className
+//     } to hour ${hour} at position ${elementPositionX}`
+//   );
+
+//   slider.scroll({
+//     left: elementPositionX - sliderPositionX,
+//     top: 0,
+//   });
+// }
+
 function scrollToHour(hour, slider) {
-  // const slider = document.querySelector(".slider");
-  const element = document.querySelector(`[data-hour="${hour}"]`);
+  slider.scroll({
+    left: 0,
+    top: 0,
+  });
+
+  const element = slider.querySelector(`[data-hour="${hour}"]`);
 
   const sliderPositionX = slider.getBoundingClientRect().left;
   const elementPositionX = element.getBoundingClientRect().left;
-  console.log(hour);
+
+  console.log(
+    `Scrolling ${slider.classList} to hour ${hour} at position ${elementPositionX}`
+  );
 
   slider.scroll({
     left: elementPositionX - sliderPositionX,
     top: 0,
+    behavior: "smooth", // Adding smooth scrolling behavior
   });
 }
-
-// scrollToHour(4);
 
 const startingCity = await getForecast("Curitiba");
 printForecast(startingCity);

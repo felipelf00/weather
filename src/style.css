@@ -65,13 +65,17 @@ textarea {
 }
 
 .slider {
-  padding: 16px 0 16px 0;
+  margin: 16px 0 16px 0;
   display: grid;
   gap: 5px;
   grid-auto-flow: column;
   grid-auto-columns: 22%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
+  /* grid-template-rows: 0; */
+  transition: max-height 300ms ease;
+
+  max-height: 0;
 }
 
 .slider span {
@@ -94,4 +98,24 @@ textarea {
 
 .title {
   padding-top: 38px;
+}
+
+.exp-container {
+  background-color: rgb(240, 240, 240);
+  border-radius: 12px;
+}
+
+.expander {
+  transition: transform 300ms;
+  text-align: center;
+  display: block;
+}
+
+.clicked {
+  transform: rotate(180deg);
+}
+
+.expanded {
+  /* grid-template-rows: auto; */
+  max-height: 324px;
 }
