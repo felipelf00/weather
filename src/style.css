@@ -5,6 +5,27 @@
   padding: 0;
 }
 
+*::-webkit-scrollbar {
+  background-color: white;
+  border-radius: 5px;
+  height: 10px;
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(240, 240, 240);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(220, 220, 220);
+}
+
 body {
   font-family: "Raleway", sans-serif;
   padding: 18px;
@@ -36,7 +57,7 @@ textarea {
 
 #city-name {
   font-weight: 500;
-  /* padding-left: 18px; */
+  grid-column: 1 / span 3;
 }
 
 .row {
@@ -59,9 +80,16 @@ textarea {
   grid-column: 3;
   font-size: 18px;
 }
-
+/* 
 .info {
   padding: 3px;
+} */
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
 }
 
 .slider {
@@ -76,6 +104,10 @@ textarea {
   transition: max-height 300ms ease;
 
   max-height: 0;
+}
+
+.slider {
+  scrollbar-color: white;
 }
 
 .slider span {
@@ -96,19 +128,24 @@ textarea {
   scroll-snap-align: start;
 }
 
-.title {
+/* .title {
   padding-top: 38px;
-}
+} */
 
 .exp-container {
   background-color: rgb(240, 240, 240);
   border-radius: 12px;
 }
 
+.exp-container:hover {
+  background-color: rgb(220, 220, 220);
+}
+
 .expander {
   transition: transform 300ms;
   text-align: center;
   display: block;
+  font-size: 1.1rem;
 }
 
 .clicked {
@@ -118,4 +155,44 @@ textarea {
 .expanded {
   /* grid-template-rows: auto; */
   max-height: 324px;
+}
+
+@media only screen and (min-width: 600px) {
+  #search-bar {
+    max-width: 300px;
+  }
+
+  .row {
+    max-width: 40vw;
+  }
+
+  .row.today {
+    max-width: 60vw;
+  }
+
+  #current-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  #current-temp {
+    font-size: 50px;
+  }
+
+  .row.today .max-min {
+    font-size: 28px;
+  }
+  .slider-container {
+    max-width: 380px;
+  }
+
+  .wrapper {
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .exp-container {
+    display: none;
+  }
 }

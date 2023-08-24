@@ -16,16 +16,16 @@ searchBar.appendChild(locationInput);
 searchBar.appendChild(search);
 document.body.appendChild(searchBar);
 
-const cityName = document.createElement("h1");
-cityName.id = "city-name";
-document.body.appendChild(cityName);
-
-const todayTitle = document.createElement("h3");
-todayTitle.classList.add("title");
+// const todayTitle = document.createElement("h3");
+// todayTitle.classList.add("title");
 
 const mainRow = document.createElement("div");
 // mainRow.id = "main-row";
-mainRow.classList.add("row");
+mainRow.classList.add("row", "today");
+
+const cityName = document.createElement("h1");
+cityName.id = "city-name";
+
 const weatherIcon = document.createElement("img");
 weatherIcon.id = "current-icon";
 const currentTemp = document.createElement("div");
@@ -37,27 +37,38 @@ const todayMinTemp = document.createElement("div");
 maxMin.appendChild(todayMaxTemp);
 maxMin.appendChild(todayMinTemp);
 
+mainRow.appendChild(cityName);
 mainRow.appendChild(weatherIcon);
 mainRow.appendChild(currentTemp);
 mainRow.appendChild(maxMin);
 document.body.appendChild(mainRow);
 
+const wrapper = document.createElement("div");
+wrapper.classList.add("wrapper");
+
+const infoContainer = document.createElement("div");
+infoContainer.classList.add("info-container");
+
 const condition = document.createElement("div");
 condition.classList.add("info");
-document.body.appendChild(condition);
+infoContainer.appendChild(condition);
 
 const conditionDay = document.createElement("div");
 conditionDay.classList.add("info");
-document.body.appendChild(conditionDay);
+infoContainer.appendChild(conditionDay);
 
 const chanceOfRain = document.createElement("div");
 chanceOfRain.classList.add("info");
-document.body.appendChild(chanceOfRain);
+infoContainer.appendChild(chanceOfRain);
 
 const precipitation = document.createElement("div");
 precipitation.classList.add("info");
-document.body.appendChild(precipitation);
+infoContainer.appendChild(precipitation);
 
+wrapper.appendChild(infoContainer);
+
+const sliderContainer = document.createElement("div");
+sliderContainer.classList.add("slider-container");
 const sliderToday = document.createElement("div");
 sliderToday.classList.add("slider", "snap", "expanded");
 
@@ -76,7 +87,7 @@ for (var i = 0; i <= 23; i++) {
   sliderToday.appendChild(hourElement);
 }
 
-document.body.appendChild(sliderToday);
+sliderContainer.appendChild(sliderToday);
 
 const expanderTodayContainer = document.createElement("div");
 expanderTodayContainer.classList.add("exp-container");
@@ -85,16 +96,25 @@ expanderToday.classList.add("material-symbols-outlined");
 expanderToday.classList.add("expander", "clicked");
 expanderToday.textContent = "expand_more";
 expanderTodayContainer.appendChild(expanderToday);
-document.body.appendChild(expanderTodayContainer);
+
+sliderContainer.appendChild(expanderTodayContainer);
+wrapper.appendChild(sliderContainer);
+document.body.appendChild(wrapper);
 
 expanderToday.addEventListener("click", () => {
   sliderToday.classList.toggle("expanded");
   expanderToday.classList.toggle("clicked");
 });
 
+const wrapper2 = document.createElement("div");
+wrapper2.classList.add("wrapper");
+
+const tomorrowContainer = document.createElement("div");
+tomorrowContainer.classList.add("tomorrow-container");
+
 const tomorrowTitle = document.createElement("h3");
 tomorrowTitle.classList.add("title");
-document.body.appendChild(tomorrowTitle);
+tomorrowContainer.appendChild(tomorrowTitle);
 
 const tomorrowRow = document.createElement("div");
 tomorrowRow.classList.add("row");
@@ -110,14 +130,17 @@ tomorrowMaxMin.appendChild(tomorrowMin);
 tomorrowRow.appendChild(tomorrowIcon);
 tomorrowRow.appendChild(tomorrowCondition);
 tomorrowRow.appendChild(tomorrowMaxMin);
-document.body.appendChild(tomorrowRow);
+tomorrowContainer.appendChild(tomorrowRow);
 
 const tomorrowRainChance = document.createElement("div");
 tomorrowRainChance.classList.add("info");
 const tomorrowRain = document.createElement("div");
 tomorrowRain.classList.add("info");
-document.body.appendChild(tomorrowRainChance);
-document.body.appendChild(tomorrowRain);
+tomorrowContainer.appendChild(tomorrowRainChance);
+tomorrowContainer.appendChild(tomorrowRain);
+
+const sliderContainerTomorrow = document.createElement("div");
+sliderContainerTomorrow.classList.add("slider-container");
 
 const sliderTomorrow = document.createElement("div");
 sliderTomorrow.classList.add("slider");
@@ -138,7 +161,7 @@ for (var i = 0; i <= 23; i++) {
   sliderTomorrow.appendChild(hourElement);
 }
 
-document.body.appendChild(sliderTomorrow);
+sliderContainerTomorrow.appendChild(sliderTomorrow);
 
 const expanderTomorrowContainer = document.createElement("div");
 expanderTomorrowContainer.classList.add("exp-container");
@@ -147,7 +170,9 @@ expanderTomorrow.classList.add("material-symbols-outlined");
 expanderTomorrow.classList.add("expander");
 expanderTomorrow.textContent = "expand_more";
 expanderTomorrowContainer.appendChild(expanderTomorrow);
-document.body.appendChild(expanderTomorrowContainer);
+
+sliderContainerTomorrow.appendChild(expanderTomorrowContainer);
+tomorrowContainer.appendChild(sliderContainerTomorrow);
 
 expanderTomorrow.addEventListener("click", () => {
   sliderTomorrow.classList.toggle("expanded");
@@ -155,9 +180,12 @@ expanderTomorrow.addEventListener("click", () => {
 });
 
 // after
+const afterContainer = document.createElement("div");
+afterContainer.classList.add("after-container");
+
 const afterTitle = document.createElement("h3");
 afterTitle.classList.add("title");
-document.body.appendChild(afterTitle);
+afterContainer.appendChild(afterTitle);
 
 const afterRow = document.createElement("div");
 afterRow.classList.add("row");
@@ -173,14 +201,17 @@ afterMaxMin.appendChild(afterMin);
 afterRow.appendChild(afterIcon);
 afterRow.appendChild(afterCondition);
 afterRow.appendChild(afterMaxMin);
-document.body.appendChild(afterRow);
+afterContainer.appendChild(afterRow);
 
 const afterRainChance = document.createElement("div");
 afterRainChance.classList.add("info");
 const afterRain = document.createElement("div");
 afterRain.classList.add("info");
-document.body.appendChild(afterRainChance);
-document.body.appendChild(afterRain);
+afterContainer.appendChild(afterRainChance);
+afterContainer.appendChild(afterRain);
+
+const sliderContainerAfter = document.createElement("div");
+sliderContainerAfter.classList.add("slider-container");
 
 const sliderAfter = document.createElement("div");
 sliderAfter.classList.add("slider");
@@ -201,7 +232,7 @@ for (var i = 0; i <= 23; i++) {
   sliderAfter.appendChild(hourElement);
 }
 
-document.body.appendChild(sliderAfter);
+sliderContainerAfter.appendChild(sliderAfter);
 
 const expanderAfterContainer = document.createElement("div");
 expanderAfterContainer.classList.add("exp-container");
@@ -210,12 +241,18 @@ expanderAfter.classList.add("material-symbols-outlined");
 expanderAfter.classList.add("expander");
 expanderAfter.textContent = "expand_more";
 expanderAfterContainer.appendChild(expanderAfter);
-document.body.appendChild(expanderAfterContainer);
+
+sliderContainerAfter.appendChild(expanderAfterContainer);
+afterContainer.appendChild(sliderContainerAfter);
 
 expanderAfter.addEventListener("click", () => {
   sliderAfter.classList.toggle("expanded");
   expanderAfter.classList.toggle("clicked");
 });
+
+wrapper2.appendChild(tomorrowContainer);
+wrapper2.appendChild(afterContainer);
+document.body.appendChild(wrapper2);
 
 async function getForecast(location) {
   const response = await fetch(
@@ -235,8 +272,8 @@ function printForecast(responseJson) {
   const currentHour = currentLocalTime.getHours();
 
   cityName.textContent = responseJson.location.name;
-  todayTitle.textContent =
-    "Hoje - " + currentLocalTime.getDate() + "/" + currentLocalTime.getMonth();
+  // todayTitle.textContent =
+  //   "Hoje - " + currentLocalTime.getDate() + "/" + currentLocalTime.getMonth();
   weatherIcon.src = responseJson.current.condition.icon;
   currentTemp.textContent = responseJson.current.temp_c + "°C";
   todayMaxTemp.textContent =
@@ -333,34 +370,6 @@ function printForecast(responseJson) {
   scrollToHour(6, sliderTomorrow);
   scrollToHour(6, sliderAfter);
 }
-
-// function scrollToHour(hour, slider) {
-//   slider.scroll({
-//     left: 0,
-//     top: 0,
-//   });
-
-//   const element = document.querySelector(`[data-hour="${hour}"]`);
-
-//   if (!element) {
-//     console.log(`Element for hour ${hour} not found.`);
-//     return;
-//   }
-
-//   const sliderPositionX = slider.getBoundingClientRect().left;
-//   const elementPositionX = element.getBoundingClientRect().left;
-
-//   console.log(
-//     `Scrolling ${
-//       slider.id || slider.className
-//     } to hour ${hour} at position ${elementPositionX}`
-//   );
-
-//   slider.scroll({
-//     left: elementPositionX - sliderPositionX,
-//     top: 0,
-//   });
-// }
 
 function scrollToHour(hour, slider) {
   slider.scroll({
