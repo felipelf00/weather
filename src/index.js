@@ -1,8 +1,8 @@
 import "./style.css";
 
-// const hello = document.createElement("h1");
-// hello.textContent = "hellow";
-// document.body.appendChild(hello);
+const globalContainer = document.createElement("div");
+globalContainer.id = "global-container";
+document.body.appendChild(globalContainer);
 
 const searchBar = document.createElement("div");
 searchBar.id = "search-bar";
@@ -14,7 +14,7 @@ search.textContent = "Buscar";
 
 searchBar.appendChild(locationInput);
 searchBar.appendChild(search);
-document.body.appendChild(searchBar);
+globalContainer.appendChild(searchBar);
 
 // const todayTitle = document.createElement("h3");
 // todayTitle.classList.add("title");
@@ -41,7 +41,7 @@ mainRow.appendChild(cityName);
 mainRow.appendChild(weatherIcon);
 mainRow.appendChild(currentTemp);
 mainRow.appendChild(maxMin);
-document.body.appendChild(mainRow);
+globalContainer.appendChild(mainRow);
 
 const wrapper = document.createElement("div");
 wrapper.classList.add("wrapper");
@@ -99,7 +99,7 @@ expanderTodayContainer.appendChild(expanderToday);
 
 sliderContainer.appendChild(expanderTodayContainer);
 wrapper.appendChild(sliderContainer);
-document.body.appendChild(wrapper);
+globalContainer.appendChild(wrapper);
 
 expanderToday.addEventListener("click", () => {
   sliderToday.classList.toggle("expanded");
@@ -252,7 +252,7 @@ expanderAfter.addEventListener("click", () => {
 
 wrapper2.appendChild(tomorrowContainer);
 wrapper2.appendChild(afterContainer);
-document.body.appendChild(wrapper2);
+globalContainer.appendChild(wrapper2);
 
 async function getForecast(location) {
   const response = await fetch(

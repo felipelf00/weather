@@ -28,7 +28,15 @@
 
 body {
   font-family: "Raleway", sans-serif;
-  padding: 18px;
+  background-color: rgb(34, 34, 34);
+}
+
+#global-container {
+  background-color: rgb(253, 253, 253);
+  padding: 30px;
+  margin: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 button,
@@ -44,7 +52,8 @@ textarea {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 6px;
-  padding-bottom: 18px;
+  padding-bottom: 22px;
+  margin: auto;
 }
 
 #search-bar input,
@@ -58,13 +67,19 @@ textarea {
 #city-name {
   font-weight: 500;
   grid-column: 1 / span 3;
+  font-size: 2.8rem;
 }
 
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
-  padding: 10px 0 10px 0;
+  padding: 15px 0 15px 0;
+  /* margin: auto; */
+}
+
+.row.today {
+  margin: auto;
 }
 
 #current-icon {
@@ -85,6 +100,11 @@ textarea {
   padding: 3px;
 } */
 
+.wrapper {
+  /* padding: 20px 0 20px 0; */
+  padding-bottom: 45px;
+}
+
 .info-container {
   display: flex;
   flex-direction: column;
@@ -93,7 +113,7 @@ textarea {
 }
 
 .slider {
-  margin: 16px 0 16px 0;
+  margin: 16px;
   display: grid;
   gap: 5px;
   grid-auto-flow: column;
@@ -102,12 +122,8 @@ textarea {
   overscroll-behavior-inline: contain;
   /* grid-template-rows: 0; */
   transition: max-height 300ms ease;
-
-  max-height: 0;
-}
-
-.slider {
   scrollbar-color: white;
+  max-height: 0;
 }
 
 .slider span {
@@ -127,10 +143,6 @@ textarea {
 .snap > * {
   scroll-snap-align: start;
 }
-
-/* .title {
-  padding-top: 38px;
-} */
 
 .exp-container {
   background-color: rgb(240, 240, 240);
@@ -157,13 +169,22 @@ textarea {
   max-height: 324px;
 }
 
+.tomorrow-container,
+.after-container {
+  padding-bottom: 22px;
+}
+
 @media only screen and (min-width: 600px) {
+  #global-container {
+    max-width: 800px;
+  }
+
   #search-bar {
-    max-width: 300px;
+    max-width: 420px;
   }
 
   .row {
-    max-width: 40vw;
+    max-width: 80%;
   }
 
   .row.today {
@@ -186,6 +207,10 @@ textarea {
     max-width: 380px;
   }
 
+  .slider {
+    max-height: 324px;
+  }
+
   .wrapper {
     /* display: flex; */
     display: grid;
@@ -194,5 +219,13 @@ textarea {
 
   .exp-container {
     display: none;
+  }
+
+  .info {
+    padding-left: 28px;
+  }
+
+  .title {
+    padding-left: 28px;
   }
 }
